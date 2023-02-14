@@ -1,2 +1,2 @@
-# turing-pratice-simple-ci-cd
+# turing-practice-simple-ci-cd
 Simple CI/CD
