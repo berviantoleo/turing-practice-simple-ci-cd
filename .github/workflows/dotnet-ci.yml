@@ -1,0 +1,23 @@
+name: .NET CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0
+      - name: Build .NET Project
+        run: dotnet build
+      - name: Test Project
+        run: dotnet test --collect:"XPlat Code Coverage"
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v3
