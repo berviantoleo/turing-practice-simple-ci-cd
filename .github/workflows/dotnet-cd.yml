@@ -1,0 +1,22 @@
+name: .NET CD
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0
+      - name: Build .NET Project
+        run: dotnet build
+      - name: Setup nuget source
+        run: dotnet nuget add source --username berviantoleo --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/berviantoleo/index.json"
+      - name: Publish Project
+        run: dotnet pack SimpleLibrary --configuration Release -o published
+      - name: Upload to Github Package
+        uses: dotnet nuget push "published/SimpleLibrary.${{ github.ref_name }}.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
