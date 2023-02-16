@@ -19,4 +19,4 @@ jobs:
       - name: Publish Project
         run: dotnet pack SimpleLibrary --configuration Release -o published
       - name: Upload to Github Package
-        uses: dotnet nuget push "published/SimpleLibrary.${{ github.ref_name }}.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+        run: dotnet nuget push "published/SimpleLibrary.${{ github.ref_name }}.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
